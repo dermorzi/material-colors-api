@@ -111,8 +111,6 @@ function createTonalPalette(hex: string) {
 const port = Deno.env.get("PORT") || "8080";
 const app = express();
 
-console.log(typeof createNeutralPalette, typeof createTonalPalette);
-
 app.get(["/tonal/:color"], (req: Request, res: Response) => {
   const { color } = req.params;
   const palette = createTonalPalette(color.replace("0x", "#"));
