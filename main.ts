@@ -34,7 +34,7 @@ app.get(["/neutral", "/neutral/:color"], (req: Request, res: Response) => {
 });
 
 app.use("*", (req: Request, res: Response) => {
-  const isHome = req.path === "/";
+  const isHome = req.originalUrl === "/";
   res.status(isHome ? 200 : 404).send(`
 <meta name="color-scheme" content="light dark">
 ${isHome ? "<h1>Material Colors API</h1>" : "<h1>404 - Page not found</h1>"}
