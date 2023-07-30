@@ -1,12 +1,12 @@
-import express from "npm:express";
-import { Request, Response } from "npm:express-serve-static-core";
+import express from "npm:express@latest";
+import { Request, Response } from "npm:express-serve-static-core@latest";
 
 import {
   Hct,
   argbFromHex,
   hexFromArgb,
   TonalPalette,
-} from "npm:@material/material-color-utilities";
+} from "npm:@material/material-color-utilities@latest";
 
 type ToneColors = { [key: number]: string };
 type RoleColors = { [key: string]: string };
