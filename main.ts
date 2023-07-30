@@ -39,10 +39,11 @@ app.use("*", (_: Request, res: Response) => {
 <h1>404 - Page not found</h1>
 <p>This is not a valid endpoint!<br>Please use one of the following:<p>
 <ul>
-  <li>/tonal/:color</li>
+  <li>/tonal/[color]</li>
   <li>/neutral</li>
-  <li>/neutral/:color</li>
+  <li>/neutral/[color]</li>
 </ul>
+<p>Colors are hexadecimal and starts with '0x' instead of '#'</p>
     `);
 });
 
