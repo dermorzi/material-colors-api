@@ -33,11 +33,14 @@ app.get(["/neutral", "/neutral/:color"], (req: Request, res: Response) => {
   res.json(palette);
 });
 
-app.use("*", (_: Request, res: Response) => {
-  res.status(404).send(`
+app.use("*", (req: Request, res: Response) => {
+  const isHome = req.path === "/";
+  res.status(isHome ? 200 : 404).send(`
 <meta name="color-scheme" content="light dark">
-<h1>404 - Page not found</h1>
-<p>This is not a valid endpoint!<br>Please use one of the following:<p>
+${isHome ? "<h1>Material Colors API</h1>" : "<h1>404 - Page not found</h1>"}
+<p>
+  ${isHome ? "" : "This is not a valid endpoint!<br>"}
+  Please use one of the following:<p>
 <ul>
   <li>/tonal/[color]</li>
   <li>/neutral</li>
