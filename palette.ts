@@ -76,7 +76,7 @@ export function createNeutralPalette(hex?: string) {
     }
   }
 
-  return colors;
+  return { roles: colors };
 }
 
 export function createTonalPalette(hex: string) {
