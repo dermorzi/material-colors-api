@@ -7,6 +7,7 @@
     "compression": "https://esm.sh/compression@1.7.4",
     "cors": "https://esm.sh/cors@2.8.5",
     "express": "https://esm.sh/express@4.18.2",
-    "express-serve-static-core": "https://esm.sh/express-serve-static-core@0.1.1"
+    "express-serve-static-core": "https://esm.sh/express-serve-static-core@0.1.1",
+    "@material/material-color-utilities": "https://esm.sh/@material/material-color-utilities@0.2.7"
   }
 }
