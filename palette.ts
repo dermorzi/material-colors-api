@@ -1,9 +1,11 @@
 import {
-  Hct,
+  applyTheme,
   argbFromHex,
+  Hct,
   hexFromArgb,
+  themeFromSourceColor,
   TonalPalette,
-} from "https://esm.sh/@material/material-color-utilities@latest";
+} from "@material/material-color-utilities";
 
 type ToneColors = { [key: number]: string };
 type RoleColors = { [key: string]: string };
@@ -60,6 +62,10 @@ const neutralToneRoles = {
 } as const;
 
 export function createNeutralPalette(hex?: string) {
+  if (hex) {
+    hex = "#" + hex;
+  }
+
   hex = hex || "#000000";
   const hct = getHCT(hex);
   const palette = TonalPalette.fromHueAndChroma(hct.hue, hct.chroma * 0.1);
@@ -80,6 +86,7 @@ export function createNeutralPalette(hex?: string) {
 }
 
 export function createTonalPalette(hex: string) {
+  hex = "#" + hex;
   const hct = getHCT(hex);
   const palette = TonalPalette.fromHct(hct);
   const colors = {
@@ -103,4 +110,14 @@ export function createTonalPalette(hex: string) {
   }
 
   return colors;
+}
+
+export function generateThemeFromColor(hex: string) {
+  hex = "#" + hex;
+  const argb = argbFromHex(hex);
+  const theme = themeFromSourceColor(argb);
+
+  const dark = applyTheme(theme, { dark: true });
+
+  return dark;
 }
