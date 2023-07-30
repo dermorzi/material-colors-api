@@ -34,7 +34,7 @@ app.get(["/neutral", "/neutral/:color"], (req: Request, res: Response) => {
 });
 
 const endpoints = `
-<h2>Available endpoints<h2>
+<h2>Available endpoints</h2>
 <p>[color] is hexadecimal CSS color without the #</p>
 <ul>
   <li>/tonal/[color]</li>
