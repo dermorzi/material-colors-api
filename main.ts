@@ -23,31 +23,47 @@ app.use(
 
 app.get(["/tonal/:color"], (req: Request, res: Response) => {
   const { color } = req.params;
-  const palette = createTonalPalette(color.replace("0x", "#"));
+  const palette = createTonalPalette("#" + color);
   res.json(palette);
 });
 
 app.get(["/neutral", "/neutral/:color"], (req: Request, res: Response) => {
   const { color } = req.params;
-  const palette = createNeutralPalette(color);
+  const palette = createNeutralPalette(color ? "#" + color : undefined);
   res.json(palette);
 });
 
-app.use("*", (req: Request, res: Response) => {
-  const isHome = req.originalUrl === "/";
-  res.status(isHome ? 200 : 404).send(`
-<meta name="color-scheme" content="light dark">
-${isHome ? "<h1>Material Colors API</h1>" : "<h1>404 - Page not found</h1>"}
-<p>
-  ${isHome ? "" : "This is not a valid endpoint!<br>"}
-  Please use one of the following:<p>
+const endpoints = `
+<h2>Available endpoints<h2>
+<p>[color] is hexadecimal CSS color without the #</p>
 <ul>
   <li>/tonal/[color]</li>
   <li>/neutral</li>
   <li>/neutral/[color]</li>
 </ul>
-<p>Colors are hexadecimal and starts with '0x' instead of '#'</p>
-    `);
+`;
+
+const template = (title: string) => `
+<DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="color-scheme" content="light dark">
+    <meta charset="UTF-8">
+    <title>${title}</title>
+  </head>
+</html>
+<body>
+  <h1>${title}</h1>
+  ${endpoints}
+</body>
+</html>
+`;
+
+app.use("*", (req: Request, res: Response) => {
+  const isHome = req.originalUrl === "/";
+  const title = isHome ? "Material Colors API" : "404 - Page not found";
+  res.status(isHome ? 200 : 404).send(template(title));
 });
 
 app.listen(port);
