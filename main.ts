@@ -1,12 +1,15 @@
-import express from "npm:express@latest";
-import { Request, Response } from "npm:express-serve-static-core@latest";
+import express from "https://esm.sh/express@latest";
+import {
+  Request,
+  Response,
+} from "https://esm.sh/express-serve-static-core@latest";
 
 import {
   Hct,
   argbFromHex,
   hexFromArgb,
   TonalPalette,
-} from "npm:@material/material-color-utilities@latest";
+} from "https://esm.sh/@material/material-color-utilities@latest";
 
 type ToneColors = { [key: number]: string };
 type RoleColors = { [key: string]: string };
