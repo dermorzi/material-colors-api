@@ -130,7 +130,7 @@ function buildTheme(argb: number, customs: CustomColor[] = []): Theme {
   };
   const {
     palettes: _palettes,
-    schemes: { light, dark },
+    schemes,
     source,
     customColors,
   } = themeFromSourceColor(argb, customs);
@@ -142,8 +142,8 @@ function buildTheme(argb: number, customs: CustomColor[] = []): Theme {
     theme.palettes[name] = tones;
   }
 
-  theme.themes.dark = valuesToHex(dark);
-  theme.themes.light = valuesToHex(light);
+  theme.themes.dark = valuesToHex(schemes.dark.props);
+  theme.themes.light = valuesToHex(schemes.light.props);
 
   for (const { color, value, light, dark } of customColors) {
     theme.customPalettes.push({
