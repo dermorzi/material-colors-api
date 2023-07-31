@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light dark">
+  <meta charset="UTF-8">
+  <title>Material-3 Colors API</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      margin: 0 auto;
+      width: clamp(18rem, 90vw, 60rem)
+    }
+
+    h1, h2 {
+      text-align: center;
+    }
+
+    p {
+      margin-top: 0;
+    }
+
+    .info {
+      background: lightblue;
+      color: black;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      width: fit-content;
+    }
+
+    section {
+      margin: 0 auto;
+      width: max-content;
+    }
+
+    .endpoint {
+      border: 2px solid;
+      margin-bottom: 1rem;
+      padding: 1rem;
+    }
+  </style>
+</head>
+</html>
+<body>
+  <h1>Material-3 Colors API</h1>
+  <p class="info">
+    <strong>Important: </strong>Colors are hexadecimal CSS colors without the number sign (#)!
+  </p>
+  <section>
+    <h2>Available endpoints</h2>
+    <div class="endpoint">
+      <h3>/theme</h3>
+      <p>Creates a Material 3 Theme base on one color.</p>
+      <p><strong>Query parameter</strong></p>
+      <ul>
+        <li><strong>color:</strong> [color]</li>
+        <li><strong>custom:</strong> [color] | [name:color] | Array&lt;[name:color]&gt; <em>(optional)</em></li>
+      </ul>
+    </div>
+    <div class="endpoint">
+      <h3>/tonal</h3>
+      <p>Creates a Material 3 Color Palette based on the color.</p>
+      <p><strong>Query parameter</strong></p>
+      <ul>
+        <li><strong>color:</strong> [color]</li>
+      </ul>
+    </div>
+    <div class="endpoint">
+      <h3>/neutral</h3>
+      <p>Creates a Material 3 Surface Color Palette based on the color with a chroma of 10%.</p>
+      <p>If no color is provided the palette is based on white.</p>
+      <p><strong>Query parameter</strong></p>
+      <ul>
+        <li><strong>color:</strong> [color] <em>(optional)</em></li>
+      </ul>
+    </div>
+  </section>
+</body>
+</html>
