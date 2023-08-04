@@ -4,10 +4,26 @@
     "start": "deno run --allow-env --allow-sys --allow-read --allow-net main.ts"
   },
   "imports": {
+    "utils": "./src/utils/index.ts",
     "compression": "https://esm.sh/compression@1.7.4",
     "cors": "https://esm.sh/cors@2.8.5",
     "express": "https://esm.sh/express@4.18.2",
     "express-serve-static-core": "https://esm.sh/express-serve-static-core@0.1.1",
     "@material/material-color-utilities": "https://esm.sh/@material/material-color-utilities@0.2.7"
+  },
+  "fmt": {
+    "useTabs": false,
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "semiColons": false,
+    "singleQuote": true,
+    "proseWrap": "preserve",
+    "include": [
+      "src/"
+    ],
+    "exclude": [
+      "src/testdata/",
+      "data/fixtures/**/*.ts"
+    ]
   }
 }

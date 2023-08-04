@@ -1,13 +1,13 @@
-import type { RoleColors, ToneColors } from "./types.ts";
+import type { IRoleColors, ITonalPalette, IToneColors } from "./types.ts";
 import { TONES, TONE_ROLES } from "./constants.ts";
-import { toHct } from "../utilities.ts";
+import { toHct } from "./utilities.ts";
 import {
   argbFromHex,
   hexFromArgb,
   TonalPalette,
 } from "@material/material-color-utilities";
 
-export default function (color: string | number): TonalPalette {
+export function createTonalPalette (color: string | number): ITonalPalette {
   color = (
     typeof color === "string" ? argbFromHex("#" + color) : color
   ) as number;
@@ -15,10 +15,10 @@ export default function (color: string | number): TonalPalette {
   const hct = toHct(color);
   const palette = TonalPalette.fromHct(hct);
   const colors = {
-    tones: {} as ToneColors,
+    tones: {} as IToneColors,
     themes: {
-      light: {} as RoleColors,
-      dark: {} as RoleColors,
+      light: {} as IRoleColors,
+      dark: {} as IRoleColors,
     },
   };
 
