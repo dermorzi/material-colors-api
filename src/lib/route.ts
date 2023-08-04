@@ -69,8 +69,6 @@ export default class Route {
       url = new URL(req.url);
     }
 
-    console.log(this.endpoints)
-
     if (this.pattern.test(url)) {
       const parsedRequest = this.#parseRequest(url);
       const method = req.method;
@@ -82,12 +80,8 @@ export default class Route {
     }
 
     for (const route of this.#routes) {
-      const response = await route.handle(req, info, url);
-
-      console.log(response.status)
-
-      if (response && response.status === 200) {
-        return response;
+      if (route.canHandle(url, req.method)) {
+        return await route.handle(req, info, url);
       }
     }
 
@@ -98,6 +92,22 @@ export default class Route {
       }),
       { status: 404 }
     );
+  }
+
+  canHandle(url: URL, method: string): boolean {
+    const isMatch = this.pattern.test(url);
+
+    if (isMatch) {
+      return this.#handler.has(method)
+    }
+
+    for (const route of this.#routes) {
+      if (route.canHandle(url, method)) {
+        return true
+      }
+    }
+
+    return false
   }
 
   add(path: string): Route {
