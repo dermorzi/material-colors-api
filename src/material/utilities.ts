@@ -1,40 +1,67 @@
-import { IHCTColor, IRoleColors } from './types.ts'
-import { argbFromHex, hexFromArgb, Hct } from '@material/material-color-utilities';
+import chroma from 'chroma-js'
+import { SupportedColorFormat } from './types.ts'
+import { hexFromArgb } from '@material/material-color-utilities'
 
 export function isHexString(str: string): boolean {
-  const acceptedLengths = [3, 6, 8];
-  const regex = /^[0-9,A-F,a-f]+$/;
+  str = str.startsWith('#') ? str.slice(1) : str
+  const acceptedLengths = [3, 6, 8]
+  const regex = /^[0-9,A-F,a-f]+$/
 
-  return acceptedLengths.includes(str.length) && regex.test(str);
+  return acceptedLengths.includes(str.length) && regex.test(str)
 }
 
 export function isEvenColor(str: string): boolean {
-  const parts = str.toUpperCase().split('')
+  if (isHexString(str) === false) {
+    return false
+  }
+
+  if (str.startsWith('#')) {
+    str = str.slice(1)
+  }
+
+  const parts = str.slice(0, 6).toUpperCase().split('')
   const size: number = str.length === 6 ? 2 : 1
   const chunks: string[] = []
 
-  while(parts.length) {
-    chunks.push(parts.splice(0, size).join(''));
+  while (parts.length) {
+    chunks.push(parts.splice(0, size).join(''))
   }
 
-  return chunks.every(v => v === chunks[0])
+  return chunks.every((v) => v === chunks[0])
 }
 
-export function valuesToHex(obj: { [key: string]: number }) {
-  const result: IRoleColors = {};
-
-  for (const [key, value] of Object.entries(obj)) {
-    result[key] = hexFromArgb(value);
+export function extractArgb(palette: unknown): number | null {
+  if (palette && typeof palette === 'object' && 'keyColor' in palette) {
+    const { keyColor } = palette
+    if (keyColor && typeof keyColor === 'object' && 'argb' in keyColor) {
+      const argb = keyColor.argb
+      return typeof argb === 'number' ? argb : null
+    }
   }
 
-  return result;
+  return null
 }
 
-export function toHct(color: string | number): IHCTColor {
-  if (typeof color === "string") {
-    const argb = argbFromHex(color);
-    return Hct.fromInt(argb);
+export function valueToFormat(format: SupportedColorFormat, value: number) {
+  const hex = typeof value === 'string' ? value : hexFromArgb(value)
+
+  if (format === 'hex') {
+    return hex
   }
 
-  return Hct.fromInt(color);
+  let color = chroma(hex)[format](true) as number[]
+
+  if (format === 'rgb' || format === 'rgba') {
+    color = color.map((num) => Math.round(num * 100) / 100)
+  } else {
+    const [hue, saturation, lightness, alpha] = color
+    color = [
+      Math.round(hue) || 0,
+      Math.round(saturation * 100_000) / 1_000,
+      Math.round(lightness * 100_000) / 1_000,
+      Math.round(alpha * 1_000) / 1_000,
+    ]
+  }
+
+  return color
 }
