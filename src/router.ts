@@ -1,81 +1,47 @@
-import Route from './lib/route.ts'
-import { isHexString } from "./material/utilities.ts";
-import { createNeutralPalette, createTonalPalette, createTheme } from "./material/index.ts";
-import { ITheme } from "./material/types.ts";
+import { Route } from 'libs'
+import { createTheme } from 'material'
+import CSSGenerator from './generators/css.ts'
 
 export const root = new Route('/')
 
-const colorError = (color: unknown) => ({
-  color,
-  msg: `Provided color is not a valid hexadecimal CSS color.`,
-});
+root.add('/theme').get(({ query }) => {
+  const palette = createTheme(query)
 
-function buildCssVariables(theme: ITheme) {
-  console.log(theme)
-  return `
-:root {}
-
-@media (prefers-color-scheme: dark) {
-  :root {}
-}
-  `
-}
-
-root.add("/neutral").get(({ search }) => {
-  const color: string | null = search.get('color')
-
-  console.log(color)
-
-  if (color === null || (color && isHexString(color.toString()) === false)) {
-    return Response.json(colorError(color), { status: 404 });
+  if (palette instanceof Error) {
+    return Response.json({ msg: Error }, { status: 400 })
   }
 
-  return Response.json(createNeutralPalette(color.toString()));
-});
+  return Response.json(palette)
+})
 
-root.add('/theme').get(({ search }) => {
-  const color = search.get('color')
-  const customs = search.getAll('custom')
-  const type = search.get('type')
+root.add('/theme.css').get(async ({ query }, req) => {
+  const url = new URL(req.url)
+  url.pathname = '/theme'
+  const theme = await fetch(url).then((res) => res.json())
 
-  if (typeof color !== "string" || isHexString(color) === false) {
-    return Response.json(colorError(color), { status: 400 });
+  if (theme instanceof Error) {
+    return Response.json({ msg: Error }, { status: 400 })
   }
 
-  const palette = createTheme(color, customs);
+  const target = query.target && typeof query.target === 'string'
+    ? query.target
+    : Array.isArray(query.target) ? query.target[0] : 'hex'
 
-  if (type) {
-    switch (type) {
-      case 'css':
-        return new Response(buildCssVariables(palette))
-    }
-  }
-
-  return Response.json(palette);
-});
-
-root.add('/tonal').get(({ search }) => {
-  const color = search.get('color');
-
-  if (typeof color !== "string" || isHexString(color) === false) {
-    return Response.json(colorError(color), { status: 400 });
-  }
-
-  return Response.json(createTonalPalette(color));
-});
+  return new Response(CSSGenerator(theme, target))
+})
 
 root.get(async ({ path }) => {
-  const isHome = path === "/";
+  const isHome = path === '/'
 
   if (isHome) {
-    const html = await Deno.readTextFile("./index.html");
-    return new Response(html, { headers: { 'Content-Type': 'text/html' } });
+    const html = await Deno.readTextFile('./views/index.html')
+    return new Response(html, { headers: { 'Content-Type': 'text/html' } })
   }
 
   return Response.json({
-    msg: "Not found",
-    endpoints: ["/neutral", "/theme", "/tonal"],
-  }, { status: 404 });
-});
+    msg: 'Not found',
+    endpoints: ['/neutral', '/theme', '/tonal'],
+  }, { status: 404 })
+})
 
 export default root
