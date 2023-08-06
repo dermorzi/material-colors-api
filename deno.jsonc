@@ -4,6 +4,7 @@
     "start": "deno run --allow-env --allow-sys --allow-read --allow-net src/main.ts"
   },
   "imports": {
+    "libs": "./src/libs/index.ts",
     "utils": "./src/utils/index.ts",
     "material": "./src/material/index.ts",
     "compression": "https://esm.sh/compression@1.7.4",

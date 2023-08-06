@@ -1,7 +1,7 @@
-import loadEnv from './lib/env.ts'
+import { LoadEnvFile } from 'libs'
 import router from './router.ts'
 
-await loadEnv()
+await LoadEnvFile()
 
-const port = Number(Deno.env.get("PORT") || 8080);
+const port = Number(Deno.env.get('PORT') || 8080)
 Deno.serve({ port }, router.handle)
