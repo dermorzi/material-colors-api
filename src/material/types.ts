@@ -1,62 +1,38 @@
-export interface IToneColors {
-  [key: number]: string
+import { SUPPORTED_COLOR_FORMATS, PALETTE_NAMES } from './constants.ts'
+
+export type SupportedColorFormat = typeof SUPPORTED_COLOR_FORMATS[number]
+
+export type PaletteNames = typeof PALETTE_NAMES[number]
+
+export type Palette<T = string | number> = { [tone: number]: T }
+
+export type CustomPaletteNames<T> = T extends PaletteNames ? never : T
+
+export type RolesMap = { [key: string]: [color: PaletteNames, light: number, dark: number] }
+
+export type CustomColorInput = {
+  name: string
+  value: string
+  blend?: boolean
 }
 
-export interface IRoleColors {
-  [key: string]: string
-}
+export type Roles = { [role: string]: number | string | number[] }
 
-export interface ICustomColor {
-  name: string;
-  value: number;
-  blend: boolean;
-}
-
-export interface ITonalPalette {
-  tones: IToneColors;
-  themes: IThemes;
-}
-
-export interface INeutralPalette {
-  tones: IToneColors;
-  themes: IThemes;
-}
-
-export interface IHCTColor {
-  [key: string]: unknown;
-  hue: number;
-  chroma: number;
-}
-
-export interface IPalette {
-  [key: string]: unknown;
-  keyColor: {
-    [key: string]: unknown;
-    argb: number;
-  };
-}
-
-export interface IPalettes {
-  [key: string]: IPalette;
-}
-
-export interface ICustomPalette {
-  name: string;
-  source: string;
-  themes: IThemes;
-  tones: IToneColors;
-}
-
-export interface ITheme {
-  source: string;
+export type Theme = {
+  name: string | null
+  source: string
   palettes: {
-    [key: string]: IToneColors;
-  };
-  themes: IThemes;
-  customPalettes: ICustomPalette[];
-}
-
-export interface IThemes {
-  dark: IRoleColors;
-  light: IRoleColors;
+    default: {  [name in PaletteNames]: Palette }
+    customs: {  [name in PaletteNames]: Palette }
+  },
+  roles: {
+    default: {
+      light: Roles
+      dark: Roles
+    }
+    customs: {
+      light: Roles
+      dark: Roles
+    }
+  }
 }
