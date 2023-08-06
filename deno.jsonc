@@ -7,6 +7,7 @@
     "libs": "./src/libs/index.ts",
     "utils": "./src/utils/index.ts",
     "material": "./src/material/index.ts",
+    "generators": "./src/generators/index.ts",
     "compression": "https://esm.sh/compression@1.7.4",
     "cors": "https://esm.sh/cors@2.8.5",
     "chroma-js": "https://esm.sh/chroma-js@2.4.2",
