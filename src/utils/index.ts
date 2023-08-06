@@ -34,3 +34,7 @@ export function capitilize(str: string): string {
     .map((c, i, a) => (i === 0 || a[i - 1] === ' ' ? c.toUpperCase() : c))
     .join('')
 }
+
+export function indent(spaces: number) {
+  return Array(spaces).fill(' ').join('')
+}
