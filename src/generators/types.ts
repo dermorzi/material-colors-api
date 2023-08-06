@@ -1,4 +1,4 @@
-export interface CustomProperties {
+export type ThemeVariables = {
   dark: string[]
   light: string[]
 }
