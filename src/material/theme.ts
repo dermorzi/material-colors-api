@@ -116,7 +116,7 @@ export function createTheme(query: { [name: string]: string | string[] }) {
   if (color === undefined || isHexString(color) === false) {
     return new CustomError(
       'ColorError',
-      `Color ${color} is not a valid! The must be a CSS hex color without the "#" at the start.`
+      `Color ${color} is not a valid! The must be a CSS hex color without the number sign (#).`
     )
   }
 

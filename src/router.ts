@@ -5,22 +5,25 @@ import CSSGenerator from './generators/css.ts'
 export const root = new Route('/')
 
 root.add('/theme').get(({ query }) => {
-  const palette = createTheme(query)
-
-  if (palette instanceof Error) {
-    return Response.json({ msg: Error }, { status: 400 })
-  }
-
-  return Response.json(palette)
-})
-
-root.add('/theme.css').get(async ({ query }, req) => {
-  const url = new URL(req.url)
-  url.pathname = '/theme'
-  const theme = await fetch(url).then((res) => res.json())
+  const theme = createTheme(query)
 
   if (theme instanceof Error) {
-    return Response.json({ msg: Error }, { status: 400 })
+    const { message, name } = theme as Error
+    return Response.json({
+      type: name,
+      msg: message
+    }, { status: 400 })
+  }
+
+  return Response.json(theme)
+})
+
+root.add('/theme.css').get(({ query }) => {
+  const theme = createTheme(query)
+
+  if (theme instanceof Error) {
+    const { message } = theme as Error
+    return new Response(message, { status: 400 })
   }
 
   const target = query.target && typeof query.target === 'string'

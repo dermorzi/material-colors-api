@@ -7,7 +7,15 @@ export function isHexString(str: string): boolean {
   const acceptedLengths = [3, 6, 8]
   const regex = /^[0-9,A-F,a-f]+$/
 
-  return acceptedLengths.includes(str.length) && regex.test(str)
+  if (acceptedLengths.includes(str.length) === false) {
+    return false
+  }
+
+  if (regex.test(str) === false) {
+    return false
+  }
+
+  return true
 }
 
 export function isEvenColor(str: string): boolean {
