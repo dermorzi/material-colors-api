@@ -18,10 +18,10 @@ export class CSSGenerator extends Generator {
 
   templates() {
     return {
-      hex: (role: string, prefix: string, color: string) => `--${prefix || ''}${role}: ${color};`,
-      hsl: (role: string, prefix: string, color: number[]) => `--${prefix || ''}${role}: hsl(${color[0]}, ${color[1]}%, ${color[2]}%);`,
-      rgb: (role: string, prefix: string, color: number[]) => `--${prefix || ''}${role}: rgb(${ color.join(', ') });`,
-      rgba: (role: string, prefix: string, color: number[]) => `--${prefix || ''}${role}: rgba(${ color.join(', ')});`,
+      hex: (role: string, color: string, prefix: string, _: string) => `--${prefix || ''}${role}: ${color};`,
+      hsl: (role: string, color: number[], prefix: string, _: string) => `--${prefix || ''}${role}: hsl(${color[0]}, ${color[1]}%, ${color[2]}%);`,
+      rgb: (role: string, color: number[], prefix: string, _: string) => `--${prefix || ''}${role}: rgb(${ color.join(', ') });`,
+      rgba: (role: string, color: number[], prefix: string, _: string) => `--${prefix || ''}${role}: rgba(${ color.join(', ')});`,
     }
   }
 
